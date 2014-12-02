@@ -572,9 +572,34 @@ vector<Gene> crossOver(Gene p1,Gene p2,vector<vector<int> > &V1,vector<vector<in
     return ret;
 }
 void mutation(vector<Gene> &genes) {
-    /*
-     * 여기에 추가해야함 중복체크
-     */
+    for ( int i = 1 ; i < (int)genes.size() ; i++ ) 
+        for ( int j = 0 ; j < genes[i].m ; j++ ) {
+            double r = (double)rand()/RAND_MAX;
+            if ( r >= MUTATION_ROW_CHANCE ) 
+                continue;
+            for ( int k = 0 ; k < genes[i].n ; k++ ) {
+                r = (double)rand()/RAND_MAX;
+                if ( r >= MUTATION_BIT_CHANCE ) 
+                    continue;
+                genes[i].g[j][k] ^= 1;
+                bool eq = false;
+                for ( int jj = 0 ; jj < genes[i].m ; jj++ ) {
+                    if ( jj == j ) continue;
+                    bool now_eq = true;
+                    for ( int kk = 0 ; kk < genes[i].n ; kk++ ) 
+                        if ( genes[i].g[j][kk] != genes[i].g[jj][kk] )
+                            now_eq = false;
+                    if ( now_eq ) {
+                        eq = true;
+                        break;
+                    }
+                }
+                if ( eq ) genes[i].g[j][k] ^= 1;
+            }
+        }
+}
+/*
+void mutation(vector<Gene> &genes) {
     for ( int i = 1 ; i < genes.size() ; i++ ) 
         for ( int j = 0 ; j < genes[i].m ; j++ ) 
             for ( int k = 0 ; k < genes[i].n ; k++ ) {
@@ -595,6 +620,7 @@ void mutation(vector<Gene> &genes) {
                 }
             }
 }
+*/
 void maxCutForAdjustPoints(int generation,Gene p,vector<vector<int> > &now,int targetNumber,vector<int> realCutData) {
     if ( (int)changeVertex.size() == targetNumber ) return;
     if ( (int)now[0].size()+(int)changeVertex.size() <= targetNumber ) {
