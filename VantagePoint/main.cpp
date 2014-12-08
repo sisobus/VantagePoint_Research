@@ -49,11 +49,12 @@ int main(int argc,char *argv[]) {
             char *filename;
             FILE *fp;
 
-            bool printOption = true;
-            //bool printOption = ( !(generation%1000) || (1 <= generation && generation <= 10) || generation == MAX_GENERATION);
+            bool printOption = ( !(generation%50) );
+//            bool printOption = true;
+//            bool printOption = ( !(generation%1000) || (1 <= generation && generation <= 10) || generation == MAX_GENERATION);
 
             if ( printOption ) {
-                filename = (char*)malloc(sizeof(char)*22);
+                filename = (char*)malloc(sizeof(char)*222);
                 sprintf(filename,"result/g_%d_%d.vp",n,generation);
                 fp = fopen(filename,"w");
                 fprintf(fp,"now generation = %d tot f = %lf\n",generation,calculateNowGenesF(genes));
@@ -451,7 +452,7 @@ vector<vector<int> > equalCut(int generation,int m,vector<Graph> &v,vector<int> 
     vector<vector<int> > ret;
     ret.resize(2);
 
-    char *filename = (char *)malloc(sizeof(char)*22);
+    char *filename = (char *)malloc(sizeof(char)*222);
     sprintf(filename,"graph/g%d",generation);
     FILE *fp = fopen(filename,"w");
     fprintf(fp,"%d %d\n",m,(int)v.size());
@@ -459,7 +460,7 @@ vector<vector<int> > equalCut(int generation,int m,vector<Graph> &v,vector<int> 
         fprintf(fp,"%d %d %d\n",v[i].u,v[i].v,(int)(v[i].w+1.00001));
     fclose(fp);
 
-    char *command = (char *)malloc(sizeof(char)*22);
+    char *command = (char *)malloc(sizeof(char)*222);
     sprintf(command,"sdp1.1/sdp -p ecut -f %s",filename);
     system(command);
 
@@ -483,7 +484,7 @@ vector<vector<int> > maxCut(int generation,int m,vector<Graph> &v,vector<int> re
     vector<vector<int> > ret;
     ret.resize(2);
 
-    char *filename = (char *)malloc(sizeof(char)*22);
+    char *filename = (char *)malloc(sizeof(char)*222);
     sprintf(filename,"graph/g%d",generation);
     FILE *fp = fopen(filename,"w");
     fprintf(fp,"%d %d\n",m,(int)v.size());
@@ -491,7 +492,7 @@ vector<vector<int> > maxCut(int generation,int m,vector<Graph> &v,vector<int> re
         fprintf(fp,"%d %d %d\n",v[i].u,v[i].v,(int)(v[i].w+1.00001));
     fclose(fp);
 
-    char *command = (char *)malloc(sizeof(char)*22);
+    char *command = (char *)malloc(sizeof(char)*222);
     sprintf(command,"sdp1.1/sdp -f %s 1>/dev/null",filename);
     system(command);
 
@@ -671,7 +672,7 @@ vector<vector<int> > maxCut(int generation,int m,vector<Graph> &v) {
     vector<vector<int> > ret;
     ret.resize(2);
 
-    char *filename = (char *)malloc(sizeof(char)*22);
+    char *filename = (char *)malloc(sizeof(char)*222);
     sprintf(filename,"graph/g%d",generation);
     FILE *fp = fopen(filename,"w");
     fprintf(fp,"%d %d\n",m,(int)v.size());
@@ -679,7 +680,7 @@ vector<vector<int> > maxCut(int generation,int m,vector<Graph> &v) {
         fprintf(fp,"%d %d %d\n",v[i].u,v[i].v,(int)(v[i].w+1.00001));
     fclose(fp);
 
-    char *command = (char *)malloc(sizeof(char)*22);
+    char *command = (char *)malloc(sizeof(char)*222);
     sprintf(command,"sdp1.1/sdp -f %s > dev",filename);
     system(command);
 
